@@ -4,6 +4,12 @@ var dialogue_node = null
 func _ready():
 	hide()
 
+func player_name(d_name):
+	if d_name == "Player":
+		return PlayerData.PlayerName
+	else:
+		return d_name
+
 func show_dialogue(player, dialogue):
 	show()
 	$Button.grab_focus()
@@ -18,13 +24,14 @@ func show_dialogue(player, dialogue):
 	dialogue_node.connect("dialogue_finished", self, "hide")
 	dialogue_node.connect("dialogue_finished", self, "_on_dialogue_finished", [player])
 	dialogue_node.start_dialogue()
-	$Name.text = dialogue_node.dialogue_name
+	$Name.text = player_name(dialogue_node.dialogue_name)
 	$Text.text = dialogue_node.dialogue_text
 
 	
 func _on_Button_button_up():
 	dialogue_node.next_dialogue()
-	$Name.text = dialogue_node.dialogue_name
+	
+	$Name.text = player_name(dialogue_node.dialogue_name)	
 	$Text.text = dialogue_node.dialogue_text
 
 func _on_dialogue_finished(player):
